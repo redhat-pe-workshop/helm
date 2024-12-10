@@ -9,6 +9,8 @@ metadata:
     app.kubernetes.io/part-of: {{ .Values.namespace }}
   annotations:
     rhtas.redhat.com/metrics: 'true'
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+    {{- include "trusted-artifact-signer.argocd-syncwave" . | nindent 4 }}    
   namespace: trusted-artifact-signer
 spec:
   fulcio:
