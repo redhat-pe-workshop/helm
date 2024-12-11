@@ -4,6 +4,8 @@ kind: Subscription
 metadata:
   name: {{ include "rhtas-operator.name" . }}
   namespace: {{ .Values.namespace }}
+  annotations:
+    {{- include "rhtas-operator.argocd-syncwave" . | nindent 4 }}
 spec:
   channel: {{ .Values.subscription.channel }}
   installPlanApproval: {{ .Values.subscription.installPlanApproval }}

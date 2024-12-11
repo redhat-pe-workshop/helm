@@ -1,6 +1,6 @@
 nameOverride: ""
 
-namespace: openshift-operators
+namespace: ""
 
 subscription:
   channel: "stable"
