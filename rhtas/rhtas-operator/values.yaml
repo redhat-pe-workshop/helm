@@ -11,7 +11,5 @@ subscription:
 
 argocd:
   enabled: true
-  operatorgroup:
-    syncwave: "-3"
   operator:
-    syncwave: "-2"
+    syncwave: "1"
