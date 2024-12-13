@@ -2,8 +2,11 @@ nameOverride: ""
 
 namespace: ""
 
+name: rhtas-operator
+namespace: openshift-operators
+
 subscription:
-  channel: "stable"
+  channel: stable
   installPlanApproval: Automatic
   name: rhtas-operator
   source: redhat-operators
