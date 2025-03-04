@@ -2,7 +2,9 @@
   description = "Global Allowlist"
 
   # Ignore based on any subset of the file path
-  paths = []
+  paths = [
+    '''platform\/kuadrant/templates\/aws-credentials-secret.yaml'''
+  ]
         
   # Ignore based on any subset of the line
   regexes = []

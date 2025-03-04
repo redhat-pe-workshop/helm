@@ -1,1 +1,1 @@
-Helm charts for Platform Engineering Workshop.
+Helm charts for Connectivity Link
