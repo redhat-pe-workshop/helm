@@ -1,0 +1,9 @@
+---
+
+subscription:
+  channel: 
+  installPlanApproval: Automatic
+  name: rhcl-operator
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace
+  startingCSV: ""
