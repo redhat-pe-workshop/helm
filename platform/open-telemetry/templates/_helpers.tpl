@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "apicurio-studio-operator.name" -}}
+{{- define "open-telemetry.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "apicurio-studio-operator.fullname" -}}
+{{- define "open-telemetry.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "apicurio-studio-operator.chart" -}}
+{{- define "open-telemetry.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "apicurio-studio-operator.labels" -}}
-helm.sh/chart: {{ include "apicurio-studio-operator.chart" . }}
-{{ include "apicurio-studio-operator.selectorLabels" . }}
+{{- define "open-telemetry.labels" -}}
+helm.sh/chart: {{ include "open-telemetry.chart" . }}
+{{ include "open-telemetry.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,17 +45,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "apicurio-studio-operator.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "apicurio-studio-operator.name" . }}
+{{- define "open-telemetry.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "open-telemetry.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "apicurio-studio-operator.serviceAccountName" -}}
+{{- define "open-telemetry.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "apicurio-studio-operator.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "open-telemetry.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}

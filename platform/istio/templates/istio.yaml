@@ -12,3 +12,9 @@ spec:
   values:
     pilot:
       autoscaleEnabled: false
+    meshConfig:
+      extensionProviders:
+      - name: otel
+        opentelemetry:
+          port: 4317
+          service: otel-collector.opentelemetrycollector.svc.cluster.local
