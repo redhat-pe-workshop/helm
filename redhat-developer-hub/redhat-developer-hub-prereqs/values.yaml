@@ -39,7 +39,7 @@ rbacPolicy:
   - "p, role:default/plugins, argocd.view.read, read, allow"
   - "p, role:default/plugins, kubernetes.proxy, use, allow"
   - "p, role:default/plugins, kubernetes.clusters.read, read, allow"
-  - "p, role:default/plugins, kubernetes.clusters.resources, read, allow"
+  - "p, role:default/plugins, kubernetes.resources.read, read, allow"
 
   - "g, group:default/platformengineers, role:default/location_read"
   - "g, group:default/platformengineers, role:default/platformengineer"
