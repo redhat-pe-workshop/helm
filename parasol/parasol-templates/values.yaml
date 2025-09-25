@@ -13,6 +13,10 @@ parasol:
         branch: main
         templates:
           - template.yaml
+      - project: parasol-store-dev-template-secure
+        branch: main
+        templates:
+          - template.yaml    
   store:
     group: parasol
     manifests: parasol-store-manifests
