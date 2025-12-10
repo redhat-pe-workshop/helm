@@ -16,4 +16,5 @@ stringData:
   username: "{{ .Values.backstage.postgresql.username | default "postgres" }}"
   database: "{{ .Values.backstage.postgresql.database | default "postgres" }}"
   password: "{{ .Values.backstage.postgresql.password }}"
+  postgres-password: "{{ .Values.backstage.postgresql.password }}"
   uri: "postgresql://{{ .Values.backstage.postgresql.username | default "postgres" }}:{{ .Values.backstage.postgresql.password }}@{{ include "redhat-developer-hub-prereqs.name" . }}-postgresql:5432/{{ .Values.backstage.postgresql.database | default "postgres" }}"
