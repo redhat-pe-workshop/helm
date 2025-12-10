@@ -1,4 +1,3 @@
-{{- if and (default false .Values.orchestrator.enabled) (not (default true .Values.upstream.postgresql.serviceBindings.enabled)) }}
 apiVersion: v1
 kind: Secret
 metadata:
@@ -18,4 +17,3 @@ stringData:
   database: "{{ .Values.upstream.postgresql.auth.database | default "postgres" }}"
   password: "{{ .Values.upstream.postgresql.auth.password }}"
   uri: "postgresql://{{ .Values.upstream.postgresql.auth.username | default "postgres" }}:{{ .Values.upstream.postgresql.auth.password }}@{{ include "redhat-developer-hub-prereqs.name" . }}-postgresql:5432/{{ .Values.upstream.postgresql.auth.database | default "postgres" }}"
-{{- end }}
