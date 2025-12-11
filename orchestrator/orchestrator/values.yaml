@@ -1,10 +1,10 @@
 postgres:
   authSecret:
-    name: sonataflow-psql-postgresql
-    passwordKey: database-password
-    userKey: database-user
+    name: backstage-postgresql-svcbind-postgres
+    passwordKey: password
+    userKey: username
   database: sonataflow
-  service: sonataflow-psql-postgresql
+  service: backstage-postgresql
 
 backstage:
   namespace: backstage
