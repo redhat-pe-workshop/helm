@@ -1,0 +1,25 @@
+{{- if .Values.serverless.enabled }}
+---
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: {{ .Values.serverless.operatorGroup.name }}
+  namespace: {{ .Values.serverless.namespace }}
+  annotations:
+    {{- include "orchestrator-operator.argocd-syncwave" (dict "syncwave" .Values.argocd.syncwaves.operatorGroup "argocd" .Values.argocd) | nindent 4 }}
+spec:
+  upgradeStrategy: Default
+{{- end }}
+{{- if .Values.serverlessLogic.enabled }}
+---
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: {{ .Values.serverlessLogic.operatorGroup.name }}
+  namespace: {{ .Values.serverlessLogic.namespace }}
+  annotations:
+    {{- include "orchestrator-operator.argocd-syncwave" (dict "syncwave" .Values.argocd.syncwaves.operatorGroup "argocd" .Values.argocd) | nindent 4 }}
+spec:
+  upgradeStrategy: Default
+{{- end }}
+

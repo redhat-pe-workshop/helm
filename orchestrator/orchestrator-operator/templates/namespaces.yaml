@@ -1,0 +1,19 @@
+{{- if .Values.serverless.enabled }}
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ .Values.serverless.namespace }}
+  annotations:
+    {{- include "orchestrator-operator.argocd-syncwave" (dict "syncwave" .Values.argocd.syncwaves.namespace "argocd" .Values.argocd) | nindent 4 }}
+{{- end }}
+{{- if .Values.serverlessLogic.enabled }}
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ .Values.serverlessLogic.namespace }}
+  annotations:
+    {{- include "orchestrator-operator.argocd-syncwave" (dict "syncwave" .Values.argocd.syncwaves.namespace "argocd" .Values.argocd) | nindent 4 }}
+{{- end }}
+
