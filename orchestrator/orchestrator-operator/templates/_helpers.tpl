@@ -74,11 +74,13 @@ Determine target namespace
 
 {{/*
 ArgoCD Syncwave
+Accepts a dict with 'syncwave' and 'argocd' keys
+Usage: {{ include "orchestrator-operator.argocd-syncwave" (dict "syncwave" .Values.argocd.syncwaves.orchestrator "argocd" .Values.argocd) }}
 */}}
 {{- define "orchestrator-operator.argocd-syncwave" -}}
-{{- if .Values.argocd }}
-{{- if and (.Values.argocd.operator.syncwave) (.Values.argocd.enabled) -}}
-argocd.argoproj.io/sync-wave: "{{ .Values.argocd.operator.syncwave }}"
+{{- if .argocd }}
+{{- if and .syncwave .argocd.enabled -}}
+argocd.argoproj.io/sync-wave: "{{ .syncwave }}"
 {{- else }}
 {{- "{}" }}
 {{- end }}

@@ -1,14 +1,32 @@
+{{- if .Values.serverless.enabled }}
 ---
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
-  name: {{ include "orchestrator-operator.name" . }}-operator
-  namespace: {{ include "orchestrator-operator.namespace" . }}
+  name: {{ .Values.serverless.subscription.name }}
+  namespace: {{ .Values.serverless.namespace }}
   annotations:
-    {{- include "orchestrator-operator.argocd-syncwave" . | nindent 4 }}
+    {{- include "orchestrator-operator.argocd-syncwave" (dict "syncwave" .Values.argocd.syncwaves.serverless "argocd" .Values.argocd) | nindent 4 }}
 spec:
-  channel: {{ .Values.subscription.channel }}
-  installPlanApproval: {{ .Values.subscription.installPlanApproval }}
-  name: {{ .Values.subscription.name }}
-  source: {{ .Values.subscription.source }}
-  sourceNamespace: {{ .Values.subscription.sourceNamespace }}
+  channel: {{ .Values.serverless.subscription.channel }}
+  installPlanApproval: {{ .Values.serverless.subscription.installPlanApproval }}
+  name: {{ .Values.serverless.subscription.name }}
+  source: {{ .Values.serverless.subscription.source }}
+  sourceNamespace: {{ .Values.serverless.subscription.sourceNamespace }}
+{{- end }}
+{{- if .Values.serverlessLogic.enabled }}
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: {{ .Values.serverlessLogic.subscription.name }}
+  namespace: {{ .Values.serverlessLogic.namespace }}
+  annotations:
+    {{- include "orchestrator-operator.argocd-syncwave" (dict "syncwave" .Values.argocd.syncwaves.serverlessLogic "argocd" .Values.argocd) | nindent 4 }}
+spec:
+  channel: {{ .Values.serverlessLogic.subscription.channel }}
+  installPlanApproval: {{ .Values.serverlessLogic.subscription.installPlanApproval }}
+  name: {{ .Values.serverlessLogic.subscription.name }}
+  source: {{ .Values.serverlessLogic.subscription.source }}
+  sourceNamespace: {{ .Values.serverlessLogic.subscription.sourceNamespace }}
+{{- end }}

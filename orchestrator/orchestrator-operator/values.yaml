@@ -1,16 +1,36 @@
 nameOverride: "orchestrator"
 fullnameOverride: ""
 
-namespace: openshift-operators
+# OpenShift Serverless Operator
+serverless:
+  enabled: true
+  namespace: openshift-serverless
+  operatorGroup:
+    name: openshift-serverless
+  subscription:
+    channel: stable
+    installPlanApproval: Automatic
+    name: serverless-operator
+    source: redhat-operators
+    sourceNamespace: openshift-marketplace
 
-subscription:
-  channel: stable
-  installPlanApproval: Automatic
-  name: orchestrator-operator
-  source: redhat-operators
-  sourceNamespace: openshift-marketplace
+# OpenShift Serverless Logic Operator
+serverlessLogic:
+  enabled: true
+  namespace: openshift-serverless-logic
+  operatorGroup:
+    name: openshift-serverless-logic
+  subscription:
+    channel: alpha
+    installPlanApproval: Automatic
+    name: logic-operator-rhel8
+    source: redhat-operators
+    sourceNamespace: openshift-marketplace
 
 argocd:
   enabled: true
-  operator:
-    syncwave: "-2"
+  syncwaves:
+    namespace: "-5"
+    operatorGroup: "-4"
+    serverless: "-3"
+    serverlessLogic: "-2"
