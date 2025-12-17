@@ -48,10 +48,12 @@ rbacPolicy:
 
   - "p, role:default/workflowUser, orchestrator.workflow.create-ocp-namespace-swt, read, allow"
   - "p, role:default/workflowUser, orchestrator.workflow.use.create-ocp-namespace-swt, update, allow"
+  - "p, role:default/workflowUser, orchestrator.instanceAdminView, read, allow"
 
   - "p, role:default/workflowAdmin, orchestrator.workflow, read, allow"
   - "p, role:default/workflowAdmin, orchestrator.workflow.use, update, allow"
   - "p, role:default/workflowAdmin, orchestrator.workflowAdminView, read, allow"
+  - "p, role:default/workflowAdmin, orchestrator.instanceAdminView, read, allow"
 
   - "g, group:default/platformengineers, role:default/location_read"
   - "g, group:default/platformengineers, role:default/platformengineer"
