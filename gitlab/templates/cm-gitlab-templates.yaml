@@ -89,7 +89,6 @@ data:
             rhdh_gitops_namespace: "{{ $.Values.gitops.namespace }}"
             rhdh_gitops_project: "{{ $.Values.gitops.project }}"
             quay_host: "{{ $.Values.quay.host }}"
-            orchestrator_namespace: "{{ $.Values.orchestrator.namespace }}"
 {{- end }}
 
         - name: Add new files to the repository

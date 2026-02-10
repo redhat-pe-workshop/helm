@@ -7,4 +7,15 @@ vault:
   auth:
     namespace: default
 
-  
+secrets:
+  gitlab:
+    rootPassword: ""
+  keycloak:
+    clientId: backstage
+    clientSecret: ""
+    pluginClientSecret: ""
+  rhdh:
+    argocdPassword: ""
+    postgresqlPassword: ""
+  common:
+    password: ""
