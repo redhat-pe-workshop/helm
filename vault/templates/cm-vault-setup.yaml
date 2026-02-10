@@ -118,4 +118,5 @@ data:
             - 'vault kv put kv/secrets/keycloak/plugin-client-secret value={{ $.Values.secrets.keycloak.pluginClientSecret }}'
             - 'vault kv put kv/secrets/rhdh/argocd-password value={{ $.Values.secrets.rhdh.argocdPassword }}'
             - 'vault kv put kv/secrets/rhdh/postgresql-password value={{ $.Values.secrets.rhdh.postgresqlPassword }}'
+            - 'vault kv put kv/secrets/rhdh/orchestrator-token value={{ $.Values.secrets.orchestrator.token }}'
             - 'vault kv put kv/secrets/common/password value={{ $.Values.secrets.common.password }}'

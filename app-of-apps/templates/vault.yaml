@@ -33,6 +33,8 @@ spec:
           rhdh:
             argocdPassword: {{ .Values.vault.secrets.rhdh.argocdPassword | quote }}
             postgresqlPassword: {{ .Values.vault.secrets.rhdh.postgresqlPassword | quote }}
+          orchestrator:
+            token: {{ .Values.vault.secrets.orchestrator.token | quote }}
           common:
             password: {{ .Values.vault.secrets.common.password | quote }}
   syncPolicy:

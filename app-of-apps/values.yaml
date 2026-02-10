@@ -26,6 +26,8 @@ vault:
     rhdh:
       argocdPassword: ""
       postgresqlPassword: password
+    orchestrator:
+      token: ""
     common:
       password: ""
 
@@ -132,3 +134,14 @@ rhtas:
   rootCert:
     email: admin@rhdemo.com
     org: Parasol
+
+orchestrator:
+  name: orchestrator
+  namespace: backstage
+  backstage:
+    backend:
+      url: ""
+  openshift:
+    url: ""
+  gitlab:
+    url: ""

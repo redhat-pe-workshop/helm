@@ -17,5 +17,7 @@ secrets:
   rhdh:
     argocdPassword: ""
     postgresqlPassword: ""
+  orchestrator:
+    token: ""
   common:
     password: ""
