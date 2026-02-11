@@ -79,11 +79,11 @@ data:
             headers:
               PRIVATE-TOKEN: '{{ "{{" }} root_token {{ "}}" }}'
             validate_certs: false
-            retries: 10
-            delay: 5
-            register: r_application_settings
-            until: r_application_settings.status == 200
             status_code: 200
+              retries: 10
+              delay: 5
+              register: r_application_settings
+              until: r_application_settings.status == 200
 
 {{- range $item := .Values.gitlab.users.users }}
 
