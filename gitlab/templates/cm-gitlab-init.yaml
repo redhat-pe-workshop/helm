@@ -80,10 +80,10 @@ data:
               PRIVATE-TOKEN: '{{ "{{" }} root_token {{ "}}" }}'
             validate_certs: false
             status_code: 200
-              retries: 10
-              delay: 5
-              register: r_application_settings
-              until: r_application_settings.status == 200
+          retries: 10
+          delay: 5
+          register: r_application_settings
+          until: r_application_settings.status == 200
 
 {{- range $item := .Values.gitlab.users.users }}
 
