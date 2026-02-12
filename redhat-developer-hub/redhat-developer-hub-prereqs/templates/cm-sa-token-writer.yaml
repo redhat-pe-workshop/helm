@@ -64,8 +64,20 @@ data:
             - r_vault.resources[0].status.phase is defined
             - r_vault.resources[0].status.phase == 'Running'
 
+        - name: Read Vault token
+          kubernetes.core.k8s_info:
+            api_version: v1
+            kind: Secret
+            name: vault-token
+            namespace: '{{ "{{" }} vault_namespace {{ "}}" }}'
+          register: r_vault_token
+
+        - name: Set Vault token
+          ansible.builtin.set_fact:
+            vault_token: '{{ "{{" }} r_vault_token.resources[0].data.token | b64decode {{ "}}" }}'
+
         - name: Write SA token to Vault
           kubernetes.core.k8s_exec:
             namespace: '{{ "{{" }} vault_namespace {{ "}}" }}'
             pod: '{{ "{{" }} vault_name {{ "}}" }}-0'
-            command: 'vault kv put kv/secrets/rhdh/kubernetes-sa-token value={{ "{{" }} sa_token {{ "}}" }}'
+            command: 'sh -c "VAULT_TOKEN={{ "{{" }} vault_token {{ "}}" }} vault kv put kv/secrets/rhdh/kubernetes-sa-token value={{ "{{" }} sa_token {{ "}}" }}"'
