@@ -8,7 +8,8 @@ devspaces:
     channel: stable
     installPlanApproval: Automatic
     name: devspacesoperator
-    source: devspaces-catalogsource
+    source: redhat-operators
+    startingCSV: devspacesoperator.v3.26.0
     sourceNamespace: openshift-marketplace
 
 argocd:
