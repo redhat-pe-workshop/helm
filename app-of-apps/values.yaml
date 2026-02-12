@@ -135,6 +135,11 @@ rhtas:
     email: admin@rhdemo.com
     org: Parasol
 
+devspaces:
+  enabled: true
+  name: devspaces
+  namespace: openshift-devspaces
+
 orchestrator:
   name: orchestrator
   namespace: backstage
