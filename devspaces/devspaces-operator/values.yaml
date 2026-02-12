@@ -7,7 +7,7 @@ devspaces:
   subscription:
     channel: stable
     installPlanApproval: Automatic
-    name: devspacesoperator
+    name: devspaces
     source: redhat-operators
     startingCSV: devspacesoperator.v3.26.0
     sourceNamespace: openshift-marketplace
