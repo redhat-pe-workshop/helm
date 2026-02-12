@@ -16,6 +16,7 @@ syncPolicy:
   syncOptions:
     - CreateNamespace=true
     - RespectIgnoreDifferences=true
+    - SkipDryRunOnMissingResource=true
 {{- end }}
 
 {{/*
