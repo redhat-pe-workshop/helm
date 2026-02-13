@@ -70,26 +70,24 @@ data:
 
 {{- range $item1 := $item.templates }}
 
-        - name: Fetch /tmp/{{ $item.project }}/{{ $item1 }} template from remote host
-          run_once: true
-          ansible.builtin.fetch:
-            src: /tmp/{{ $item.project }}/{{ $item1 }}
-            dest: /tmp/{{ $item1 }}
-            flat: true
-            fail_on_missing: true
-
-        - name: Apply template /tmp/{{ $item.project }}/{{ $item1 }}
-          ansible.builtin.template:
-            src: /tmp/{{ $item1 }}
-            dest: /tmp/{{ $item.project }}/{{ $item1 }}
-            mode: "0660"         
-          vars:
-            gitlab_host: "{{ $.Values.gitlab.host }}"
-            cluster_subdomain: "{{ $.Values.cluster.subdomain }}"
-            rhdh_gitops_namespace: "{{ $.Values.gitops.namespace }}"
-            rhdh_gitops_project: "{{ $.Values.gitops.project }}"
-            quay_host: "{{ $.Values.quay.host }}"
-            orchestrator_namespace: "{{ $.Values.orchestrator.namespace }}"
+        - name: Replace template variables in /tmp/{{ $item.project }}/{{ $item1 }}
+          ansible.builtin.replace:
+            path: /tmp/{{ $item.project }}/{{ $item1 }}
+            regexp: '\{\{\s*{{ "{{" }} item.key {{ "}}" }}\s*\}\}'
+            replace: '{{ "{{" }} item.value {{ "}}" }}'
+          loop:
+            - key: gitlab_host
+              value: "{{ $.Values.gitlab.host }}"
+            - key: cluster_subdomain
+              value: "{{ $.Values.cluster.subdomain }}"
+            - key: rhdh_gitops_namespace
+              value: "{{ $.Values.gitops.namespace }}"
+            - key: rhdh_gitops_project
+              value: "{{ $.Values.gitops.project }}"
+            - key: quay_host
+              value: "{{ $.Values.quay.host }}"
+            - key: orchestrator_namespace
+              value: "{{ $.Values.orchestrator.namespace }}"
 {{- end }}
 
         - name: Add new files to the repository

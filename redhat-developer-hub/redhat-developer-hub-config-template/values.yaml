@@ -32,9 +32,6 @@ gitops:
 kubernetes:
   api:
 
-oauth2:
-  issuer:
-
 cluster:
   subdomain:
 

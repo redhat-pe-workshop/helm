@@ -14,11 +14,25 @@ data:
         root_password: {{ $.Values.gitlab.rootPassword }}
         user_create: true
       tasks:
-        - name: Pause for 5 minutes waiting for GitLab
-          ansible.builtin.pause:
-            minutes: 5
+        - name: Wait for GitLab pod to be ready
+          kubernetes.core.k8s_info:
+            kind: Pod
+            namespace: '{{ "{{" }} gitlab_namespace {{ "}}" }}'
+            label_selectors:
+              - app=gitlab
+          register: r_gitlab_pod
+          retries: 120
+          delay: 10
+          until:
+            - r_gitlab_pod.resources is defined
+            - r_gitlab_pod.resources | length > 0
+            - r_gitlab_pod.resources[0].status is defined
+            - r_gitlab_pod.resources[0].status.phase is defined
+            - r_gitlab_pod.resources[0].status.phase == 'Running'
+            - r_gitlab_pod.resources[0].status.containerStatuses is defined
+            - r_gitlab_pod.resources[0].status.containerStatuses | selectattr('ready', 'equalto', true) | list | length == r_gitlab_pod.resources[0].status.containerStatuses | length
 
-        - name: Check GitLab Liveness
+        - name: Wait for GitLab API to be available
           ansible.builtin.uri:
             url: https://{{ $.Values.gitlab.host }}/api/v4/projects
             method: GET
@@ -66,10 +80,14 @@ data:
               PRIVATE-TOKEN: '{{ "{{" }} root_token {{ "}}" }}'
             validate_certs: false
             status_code: 200
+          retries: 10
+          delay: 5
+          register: r_application_settings
+          until: r_application_settings.status == 200
 
 {{- range $item := .Values.gitlab.users.users }}
 
-        - name: Create users
+        - name: Create user {{ $item.id }}
           ansible.builtin.uri:
             url: https://{{ $.Values.gitlab.host }}/api/v4/users
             method: POST
@@ -85,11 +103,13 @@ data:
             headers:
               PRIVATE-TOKEN: '{{ "{{" }} root_token {{ "}}" }}'
             validate_certs: false
-            status_code: 201
+            status_code:
+              - 201
+              - 409
           register: r_user
-          retries: 100
+          retries: 10
           delay: 5
-          until: r_user.status == 201
+          until: r_user.status in [201, 409]
 {{- end }}
 
         - name: List users
@@ -104,7 +124,7 @@ data:
 
 {{- range $item := .Values.gitlab.groups }}
 
-        - name: Create group
+        - name: Create group {{ $item.name }}
           ansible.builtin.uri:
             url: https://{{ $.Values.gitlab.host }}/api/v4/groups
             method: POST
@@ -116,11 +136,27 @@ data:
             headers:
               PRIVATE-TOKEN: '{{ "{{" }} root_token {{ "}}" }}'
             validate_certs: false
-            status_code: 201
-          register: r_group
-          retries: 100
+            status_code:
+              - 201
+              - 400
+              - 409
+          register: r_group_create
+          retries: 10
           delay: 5
-          until: r_group.status == 201
+          until: r_group_create.status in [201, 400, 409]
+          failed_when:
+            - r_group_create.status == 400
+            - "'has already been taken' not in (r_group_create.json | default({}) | string)"
+
+        - name: Look up group {{ $item.name }}
+          ansible.builtin.uri:
+            url: https://{{ $.Values.gitlab.host }}/api/v4/groups/{{ $item.name }}
+            method: GET
+            headers:
+              PRIVATE-TOKEN: '{{ "{{" }} root_token {{ "}}" }}'
+            validate_certs: false
+            status_code: 200
+          register: r_group
 
 {{- if $item.repo }}
 
@@ -140,11 +176,17 @@ data:
             headers:
               PRIVATE-TOKEN: '{{ "{{" }} root_token {{ "}}" }}'
             validate_certs: false
-            status_code: 201
-          retries: 100
+            status_code:
+              - 201
+              - 400
+              - 409
+          retries: 10
           delay: 5
           register: r_import
-          until: r_import.status == 201
+          until: r_import.status in [201, 400, 409]
+          failed_when:
+            - r_import.status == 400
+            - "'has already been taken' not in (r_import.json | default({}) | string)"
           loop:
 {{- range $item1 := $item.repo }}
             - name: {{ $item1.name }}
@@ -156,7 +198,7 @@ data:
 {{- if $item.project }}
 {{- range $item1 := $item.project }}
 
-        - name: Create project for group
+        - name: Create project {{ $item1.name }} for group
           ansible.builtin.uri:
             url: https://{{ $.Values.gitlab.host }}/api/v4/projects
             method: POST
@@ -170,11 +212,27 @@ data:
             headers:
               PRIVATE-TOKEN: '{{ "{{" }} root_token {{ "}}" }}'
             validate_certs: false
-            status_code: 201
-          retries: 100
+            status_code:
+              - 201
+              - 400
+              - 409
+          retries: 10
           delay: 5
+          register: r_create_project_result
+          until: r_create_project_result.status in [201, 400, 409]
+          failed_when:
+            - r_create_project_result.status == 400
+            - "'has already been taken' not in (r_create_project_result.json | default({}) | string)"
+
+        - name: Look up project {{ $item1.name }}
+          ansible.builtin.uri:
+            url: https://{{ $.Values.gitlab.host }}/api/v4/projects/{{ $item.name }}%2F{{ $item1.name }}
+            method: GET
+            headers:
+              PRIVATE-TOKEN: '{{ "{{" }} root_token {{ "}}" }}'
+            validate_certs: false
+            status_code: 200
           register: r_create_project
-          until: r_create_project.status == 201
 
 {{- if $item1.labels }}
 
@@ -189,11 +247,13 @@ data:
             headers:
               PRIVATE-TOKEN: '{{ "{{" }} root_token {{ "}}" }}'
             validate_certs: false
-            status_code: 201
-          retries: 100
+            status_code:
+              - 201
+              - 409
+          retries: 10
           delay: 5
           register: r_create_label
-          until: r_create_label.status == 201
+          until: r_create_label.status in [201, 409]
           loop:
 {{- range $item2 := $item1.labels }}
             - name: {{ $item2.name }}
@@ -206,7 +266,7 @@ data:
 {{- if $item.users }}
 {{- range $item1 := $item.users }}
 
-        - name: Add user to group
+        - name: Add user {{ $item1.id }} to group
           when: item.username == '{{ $item1.id }}'
           ansible.builtin.uri:
             url: https://{{ $.Values.gitlab.host }}/api/v4/groups/{{ "{{" }} r_group.json.id {{ "}}" }}/members
@@ -218,11 +278,13 @@ data:
             headers:
               PRIVATE-TOKEN: '{{ "{{" }} root_token {{ "}}" }}'
             validate_certs: false
-            status_code: 201
+            status_code:
+              - 201
+              - 409
           register: r_group_user
-          retries: 100
+          retries: 10
           delay: 5
-          until: r_group_user.status == 201
+          until: r_group_user.status in [201, 409] or r_group_user is skipped
           loop: '{{ "{{" }} r_users.json {{ "}}" }}'
 {{- end }}
 {{- end }}
@@ -253,5 +315,5 @@ data:
             pod: {{ .Values.vault.namespace }}-0
             command: '{{ "{{" }} item {{ "}}" }}'
           loop:
-            - 'vault kv put kv/secrets/rhdh/gitlab token={{ "{{" }} root_token {{ "}}" }}'
-            - 'vault kv put kv/secrets/rhdh/gitlab_webhook secret={{ "{{" }} webhook_secret {{ "}}" }}'
+            - 'vault kv put kv/secrets/gitlab/token value={{ "{{" }} root_token {{ "}}" }}'
+            - 'vault kv put kv/secrets/gitlab/webhook-secret value={{ "{{" }} webhook_secret {{ "}}" }}'

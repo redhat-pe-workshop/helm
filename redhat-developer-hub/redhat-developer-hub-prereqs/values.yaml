@@ -2,20 +2,13 @@ nameOverride: "backstage"
 
 namespace: default
 
+vault:
+  namespace: vault
+  name: vault
+
 backstage:
-  argocd:
-    password:
-  gitlab:
-    token:
-  kubernetes:
-    sa_token:
-  oauth:
-    clientId:
-    clientSecret:
   postgresql:
     password: password
-  orchestrator:
-    token:
 
 rbacPolicy:
   - "p, role:default/location_read, catalog.entity.read, read, allow"

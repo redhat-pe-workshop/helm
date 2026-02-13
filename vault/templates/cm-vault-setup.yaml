@@ -106,3 +106,17 @@ data:
         - name: Enable kv version 2
           ansible.builtin.shell: |
             oc exec vault-0 -n {{ "{{" }} vault_namespace {{ "}}" }} -- vault secrets enable -version=2 kv
+
+        - name: Pre-populate known secrets
+          kubernetes.core.k8s_exec:
+            namespace: '{{ "{{" }} vault_namespace {{ "}}" }}'
+            pod: vault-0
+            command: '{{ "{{" }} item {{ "}}" }}'
+          loop:
+            - 'vault kv put kv/secrets/gitlab/root-password value={{ $.Values.secrets.gitlab.rootPassword }}'
+            - 'vault kv put kv/secrets/keycloak/client-secret clientId={{ $.Values.secrets.keycloak.clientId }} clientSecret={{ $.Values.secrets.keycloak.clientSecret }}'
+            - 'vault kv put kv/secrets/keycloak/plugin-client-secret value={{ $.Values.secrets.keycloak.pluginClientSecret }}'
+            - 'vault kv put kv/secrets/rhdh/argocd-password value={{ $.Values.secrets.common.password }}'
+            - 'vault kv put kv/secrets/rhdh/postgresql-password value={{ $.Values.secrets.rhdh.postgresqlPassword }}'
+            - 'vault kv put kv/secrets/rhdh/orchestrator-token value={{ $.Values.secrets.orchestrator.token }}'
+            - 'vault kv put kv/secrets/common/password value={{ $.Values.secrets.common.password }}'

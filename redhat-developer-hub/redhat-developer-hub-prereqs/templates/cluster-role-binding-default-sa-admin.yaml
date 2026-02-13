@@ -1,12 +1,12 @@
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: cluster-admin-default-{{ .Values.namespace }}
+  name: cluster-admin-default-{{ .Release.Namespace }}
   annotations:
     {{- include "redhat-developer-hub-prereqs.argocd-syncwave" . | nindent 4 }}
 subjects:
   - kind: ServiceAccount
-    namespace: {{ .Values.namespace }}
+    namespace: {{ .Release.Namespace }}
     name: default
 roleRef:
   apiGroup: rbac.authorization.k8s.io
