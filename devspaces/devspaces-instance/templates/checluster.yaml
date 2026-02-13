@@ -30,7 +30,7 @@ spec:
     disableContainerBuildCapabilities: false
     defaultEditor: {{ .Values.devEnvironments.defaultEditor }}
     defaultNamespace:
-      autoProvisioning: true
+      autoProvision: true
       template: <username>-devspaces
     secondsOfInactivityBeforeIdling: 1800
     storage:
