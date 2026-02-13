@@ -35,9 +35,15 @@ spec:
     secondsOfInactivityBeforeIdling: 1800
     storage:
       pvcStrategy: per-user
-  gitServices: {}
+  gitServices:
+    gitlab:
+      - secretName: gitlab-oauth-config
+        endpoint: https://{{ .Values.gitlab.host }}
   networking:
     auth:
+      identityProviderURL: {{ .Values.oidc.identityProviderURL }}
+      oAuthClientName: {{ .Values.oidc.oAuthClientName }}
+      oAuthSecret: {{ .Values.oidc.oAuthSecret }}
       gateway:
         configLabels:
           app: che

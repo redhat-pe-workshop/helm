@@ -99,6 +99,17 @@ Backstage client secret
 {{- end }}
 
 {{/*
+DevSpaces client secret
+*/}}
+{{- define "keycloak-realmimport.client-devspaces-secret" -}}
+{{- if .Values.client.devspaces.secret }}
+{{- .Values.client.devspaces.secret }}
+{{- else }}
+{{- randAlphaNum 32 }}
+{{- end }}
+{{- end }}
+
+{{/*
 User password
 */}}
 {{- define "keycloak.user.password" -}}

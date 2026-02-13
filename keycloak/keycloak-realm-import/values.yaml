@@ -64,6 +64,11 @@ client:
     redirectUri:
     webOrigin:
     secret:
+  devspaces:
+    name: devspaces
+    redirectUri: ""
+    webOrigin: ""
+    secret:
   trustedartifactsigner:
     name: trusted-artifact-signer
     redirectUri:

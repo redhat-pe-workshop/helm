@@ -37,6 +37,11 @@ spec:
             backstagePlugin:
               name: {{ .Values.keycloak.client.backstagePlugin.name }}
               secret: {{ .Values.keycloak.client.backstagePlugin.secret | quote }}
+            devspaces:
+              name: {{ .Values.keycloak.client.devspaces.name }}
+              redirectUri: {{ .Values.keycloak.client.devspaces.redirectUri }}
+              webOrigin: {{ .Values.keycloak.client.devspaces.webOrigin }}
+              secret: {{ .Values.keycloak.client.devspaces.secret | quote }}
           users:
             password: {{ .Values.keycloak.users.password | quote }}
 {{ include "app-of-apps.syncPolicy" . | indent 2 }}

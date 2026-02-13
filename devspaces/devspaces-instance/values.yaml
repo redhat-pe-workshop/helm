@@ -9,6 +9,14 @@ devEnvironments:
   maxNumberOfWorkspacesPerUser: 2
   defaultEditor: che-incubator/che-code/latest
 
+gitlab:
+  host: ""
+
+oidc:
+  identityProviderURL: ""
+  oAuthClientName: ""
+  oAuthSecret: ""
+
 argocd:
   enabled: true
   instance:

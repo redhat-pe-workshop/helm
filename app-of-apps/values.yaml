@@ -23,6 +23,7 @@ vault:
       clientId: backstage
       clientSecret: ""
       pluginClientSecret: ""
+      devspacesClientSecret: ""
     rhdh:
       argocdPassword: ""
       postgresqlPassword: password
@@ -78,6 +79,11 @@ keycloak:
       secret: ""
     backstagePlugin:
       name: backstage-plugin
+      secret: ""
+    devspaces:
+      name: devspaces
+      redirectUri: ""
+      webOrigin: ""
       secret: ""
   users:
     password: ""
