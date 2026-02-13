@@ -6,6 +6,4 @@ metadata:
   namespace: {{ include "devspaces-operator.namespace" . }}
   annotations:
     {{- include "devspaces-operatorgroup.argocd-syncwave" . | nindent 4 }}
-spec:
-  targetNamespaces:
-    - {{ include "devspaces-operator.namespace" . }}
+spec: {}
