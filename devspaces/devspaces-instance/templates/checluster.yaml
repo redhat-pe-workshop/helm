@@ -9,6 +9,8 @@ metadata:
 spec:
   components:
     cheServer:
+      extraProperties:
+        CHE_OIDC_USERNAME__CLAIM: email
       debug: false
       logLevel: INFO
     dashboard: {}
@@ -48,3 +50,11 @@ spec:
         configLabels:
           app: che
           component: che-gateway-config
+        oAuthProxy:
+          cookieExpireSeconds: 300
+        deployment:
+          containers:
+            - env:
+                - name: OAUTH2_PROXY_BACKEND_LOGOUT_URL
+                  value: "https://{{ .Values.oidc.identityProviderURL }}/protocol/openid-connect/logout?id_token_hint={id_token}"
+              name: oauth-proxy
