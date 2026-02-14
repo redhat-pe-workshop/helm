@@ -106,6 +106,7 @@ data:
         - name: Enable kv version 2
           ansible.builtin.shell: |
             oc exec vault-0 -n {{ "{{" }} vault_namespace {{ "}}" }} -- vault secrets enable -version=2 kv
+          ignore_errors: true
 
         - name: Pre-populate known secrets
           kubernetes.core.k8s_exec:
