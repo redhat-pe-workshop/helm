@@ -41,6 +41,10 @@ spec:
     gitlab:
       - secretName: gitlab-oauth-config
         endpoint: https://{{ .Values.gitlab.host }}
+  # DevSpaces authenticates via OpenShift OAuth — the operator's gateway proxy
+  # hardcodes provider="openshift" and ignores external OIDC overrides. Workshop
+  # users log in through the "developers" OpenID provider added to the cluster
+  # OAuth CR (see openshift-oauth/ chart), which redirects to Keycloak.
   networking:
     auth:
       gateway:

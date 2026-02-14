@@ -1,3 +1,7 @@
+# Adds Keycloak as an OpenID Connect identity provider ("developers") to the
+# cluster OAuth CR. DevSpaces on OpenShift always authenticates via OpenShift
+# OAuth (the operator hardcodes provider="openshift" in the gateway proxy
+# config), so this is also how workshop users log into DevSpaces.
 apiVersion: config.openshift.io/v1
 kind: OAuth
 metadata:

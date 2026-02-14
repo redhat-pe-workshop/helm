@@ -16,7 +16,8 @@ The workshop stands up the following on a single OpenShift cluster:
 | **OpenShift Pipelines** | `openshift-pipelines/` | Tekton-based CI/CD |
 | **NooBaa** | `noobaa/` | S3-compatible object storage (backing store for Quay) |
 | **GitLab** | `gitlab/` | Source code management — users, groups, and repos are created via init Jobs |
-| **Keycloak** | `keycloak/` | SSO/OIDC provider for Developer Hub and Trusted Artifact Signer |
+| **Keycloak** | `keycloak/` | SSO/OIDC provider for Developer Hub, Trusted Artifact Signer, and OpenShift login |
+| **OpenShift OAuth** | `openshift-oauth/` | Adds Keycloak as an OpenID identity provider on the cluster OAuth CR |
 | **Quay** | `quay/` | Container image registry |
 | **RHDH GitOps** | `gitops/` | Dedicated Argo CD instance for Developer Hub-managed applications |
 | **Red Hat Developer Hub** | `redhat-developer-hub/` | Internal developer portal (Backstage) |
@@ -54,6 +55,7 @@ Vault is the single source of truth for secrets. The flow works like this:
 | `kv/secrets/gitlab/token` | GitLab init Job | RHDH (ExternalSecret) |
 | `kv/secrets/gitlab/webhook-secret` | GitLab init Job | — |
 | `kv/secrets/keycloak/client-secret` | Vault setup Job | RHDH (ExternalSecret) |
+| `kv/secrets/keycloak/openshift-client-secret` | Vault setup Job | OpenShift OAuth (ExternalSecret) |
 | `kv/secrets/keycloak/plugin-client-secret` | Vault setup Job | — |
 | `kv/secrets/quay/auth` | Quay config Job | — |
 | `kv/secrets/quay/username` | Quay config Job | — |
@@ -61,7 +63,14 @@ Vault is the single source of truth for secrets. The flow works like this:
 | `kv/secrets/rhdh/argocd-password` | Vault setup Job | RHDH (ExternalSecret) |
 | `kv/secrets/rhdh/postgresql-password` | Vault setup Job | RHDH (ExternalSecret) |
 | `kv/secrets/rhdh/kubernetes-sa-token` | RHDH SA token Job | RHDH (ExternalSecret) |
+| `kv/secrets/gitlab/devspaces-oauth` | GitLab init Job | DevSpaces (ExternalSecret) |
 | `kv/secrets/common/password` | Vault setup Job | — |
+
+## Developer authentication
+
+Workshop users (dev1, dev2, pe1, pe2) authenticate via Keycloak. The `openshift-oauth/` chart adds a **"developers"** OpenID Connect identity provider to the cluster OAuth CR alongside the default htpasswd provider. Users see both options on the OpenShift login page.
+
+DevSpaces reuses this flow — the DevSpaces operator hardcodes `provider="openshift"` in its gateway proxy config, so it always authenticates through OpenShift OAuth, which in turn redirects to Keycloak.
 
 ## Embedded Ansible playbooks
 
