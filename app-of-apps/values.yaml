@@ -23,7 +23,7 @@ vault:
       clientId: backstage
       clientSecret: ""
       pluginClientSecret: ""
-      devspacesClientSecret: ""
+      openshiftClientSecret: ""
     rhdh:
       argocdPassword: ""
       postgresqlPassword: password
@@ -80,10 +80,9 @@ keycloak:
     backstagePlugin:
       name: backstage-plugin
       secret: ""
-    devspaces:
-      name: devspaces
+    openshift:
+      name: openshift
       redirectUri: ""
-      webOrigin: ""
       secret: ""
   users:
     password: ""
@@ -140,6 +139,10 @@ rhtas:
   rootCert:
     email: admin@rhdemo.com
     org: Parasol
+
+openshiftOAuth:
+  name: openshift-oauth
+  namespace: openshift-config
 
 devspaces:
   enabled: true

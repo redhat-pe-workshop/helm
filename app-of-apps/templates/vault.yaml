@@ -30,7 +30,7 @@ spec:
             clientId: {{ .Values.vault.secrets.keycloak.clientId }}
             clientSecret: {{ .Values.vault.secrets.keycloak.clientSecret | quote }}
             pluginClientSecret: {{ .Values.vault.secrets.keycloak.pluginClientSecret | quote }}
-            devspacesClientSecret: {{ .Values.vault.secrets.keycloak.devspacesClientSecret | quote }}
+            openshiftClientSecret: {{ .Values.vault.secrets.keycloak.openshiftClientSecret | quote }}
           rhdh:
             argocdPassword: {{ .Values.vault.secrets.rhdh.argocdPassword | quote }}
             postgresqlPassword: {{ .Values.vault.secrets.rhdh.postgresqlPassword | quote }}

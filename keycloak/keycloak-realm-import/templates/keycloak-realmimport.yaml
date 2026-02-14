@@ -688,16 +688,16 @@ spec:
           - offline_access
           - microprofile-jwt
       - id: {{ uuidv4 }}
-        clientId: {{ .Values.client.devspaces.name }}
+        clientId: {{ .Values.client.openshift.name }}
         surrogateAuthRequired: false
         enabled: true
         alwaysDisplayInConsole: false
         clientAuthenticatorType: client-secret
-        secret: {{ include "keycloak-realmimport.client-devspaces-secret" . }}
+        secret: {{ include "keycloak-realmimport.client-openshift-secret" . }}
         redirectUris:
-          - {{ .Values.client.devspaces.redirectUri }}
+          - {{ .Values.client.openshift.redirectUri }}
         webOrigins:
-          - '{{ .Values.client.devspaces.webOrigin }}'
+          - '*'
         notBefore: 0
         bearerOnly: false
         consentRequired: false

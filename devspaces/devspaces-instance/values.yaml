@@ -12,11 +12,6 @@ devEnvironments:
 gitlab:
   host: ""
 
-oidc:
-  identityProviderURL: ""
-  oAuthClientName: ""
-  oAuthSecret: ""
-
 argocd:
   enabled: true
   instance:

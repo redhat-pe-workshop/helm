@@ -16,9 +16,5 @@ spec:
         devspaces-instance:
           gitlab:
             host: {{ .Values.gitlab.host }}
-          oidc:
-            identityProviderURL: https://{{ .Values.keycloak.route.host }}/realms/{{ .Values.keycloak.realm.name }}
-            oAuthClientName: {{ .Values.keycloak.client.devspaces.name }}
-            oAuthSecret: {{ .Values.keycloak.client.devspaces.secret | quote }}
 {{ include "app-of-apps.syncPolicy" . | indent 2 }}
 {{- end }}

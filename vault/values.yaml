@@ -14,7 +14,7 @@ secrets:
     clientId: backstage
     clientSecret: ""
     pluginClientSecret: ""
-    devspacesClientSecret: ""
+    openshiftClientSecret: ""
   rhdh:
     argocdPassword: ""
     postgresqlPassword: ""
