@@ -114,7 +114,7 @@ data:
             chdir: >-
               /tmp/{{ $item.project }}
             cmd: >-
-              git commit -a -m 'Updates for starting scenario.'
+              git commit -a -m 'parasol init: updates for starting scenario.'
           ignore_errors: true
 
         - name: Push all changes back to the project repository

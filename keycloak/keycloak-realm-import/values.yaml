@@ -64,6 +64,10 @@ client:
     redirectUri:
     webOrigin:
     secret:
+  openshift:
+    name: openshift
+    redirectUri: ""
+    secret:
   trustedartifactsigner:
     name: trusted-artifact-signer
     redirectUri:

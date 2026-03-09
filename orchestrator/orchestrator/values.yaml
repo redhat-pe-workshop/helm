@@ -3,19 +3,15 @@ backstage:
   operator:
     enabled: false
   backend:
-    token:
     url:
 
 openshift:
-  token:
   url:
 
 gitlab:
-  token:
   url:
 
 argocd:
   enabled: true
   orchestrator:
     syncwave: "0"
-

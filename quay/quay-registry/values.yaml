@@ -52,6 +52,7 @@ quay:
             cpu: 125m
             memory: 1Gi
   organizations: []
+  users: []
 
 
 noobaa:

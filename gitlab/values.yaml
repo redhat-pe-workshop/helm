@@ -34,16 +34,25 @@ gitlab:
       repo:
         - name: template-quarkus-simple
           url: https://github.com/redhat-pe-workshop/rhdh-template-quarkus-simple.git
+          defaultBranch: dev
         - name: parasol-store-dev-template
           url: https://github.com/redhat-pe-workshop/parasol-store-dev-templates.git
+          defaultBranch: dev
         - name: parasol-store-dev-template-secure
           url: https://github.com/redhat-pe-workshop/parasol-store-dev-template-secured.git
+          defaultBranch: dev
         - name: developer-hub-config
           url: https://github.com/redhat-pe-workshop/developer-hub-config.git
+        - name: dh-config
+          url: https://github.com/redhat-ads-tech/rhdh-config.git
         - name: import-existing-app-template
           url: https://github.com/redhat-pe-workshop/import-existing-app-template.git
+          defaultBranch: dev
         - name: import-existing-api-template
           url: https://github.com/redhat-pe-workshop/import-api-template.git
+          defaultBranch: dev
+        - name: devfiles
+          url: https://github.com/redhat-pe-workshop/devfiles.git
         - name: rhdh-entities
           url: https://github.com/redhat-pe-workshop/pe-workshop-entities.git
         - name: template-developer-self-service
@@ -106,17 +115,27 @@ gitlab:
   templates:
     - group: rhdh
       project: template-quarkus-simple
-      branch: main
+      branch: dev
       templates:
         - template.yaml
     - group: rhdh
       project: import-existing-app-template
-      branch: main
+      branch: dev
       templates:
         - template.yaml
     - group: rhdh
       project: import-existing-api-template
-      branch: main
+      branch: dev
+      templates:
+        - template.yaml
+    - group: rhdh
+      project: parasol-store-dev-template
+      branch: dev
+      templates:
+        - template.yaml
+    - group: rhdh
+      project: parasol-store-dev-template-secure
+      branch: dev
       templates:
         - template.yaml
     - group: global

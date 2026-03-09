@@ -99,6 +99,17 @@ Backstage client secret
 {{- end }}
 
 {{/*
+OpenShift client secret
+*/}}
+{{- define "keycloak-realmimport.client-openshift-secret" -}}
+{{- if .Values.client.openshift.secret }}
+{{- .Values.client.openshift.secret }}
+{{- else }}
+{{- randAlphaNum 32 }}
+{{- end }}
+{{- end }}
+
+{{/*
 User password
 */}}
 {{- define "keycloak.user.password" -}}
